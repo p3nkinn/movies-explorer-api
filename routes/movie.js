@@ -8,16 +8,16 @@ const {
 } = require('../controllers/movie');
 
 router.get(
-  '/cards',
+  '/movies',
   auth,
   getMovie,
 );
-router.delete('/cards/:id', auth, validateDeleteMovie, delMovieById);
 router.post(
-  '/cards',
+  '/movies',
   auth,
   validateCreateMovie,
   createMovie,
 );
+router.delete('/movies/:id', auth, validateDeleteMovie, delMovieById);
 
 module.exports = router;

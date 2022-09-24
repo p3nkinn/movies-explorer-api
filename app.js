@@ -4,12 +4,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { login, createUser } = require('./controllers/users');
-const { auth } = require('./middlewares/auth');
-const NotFound = require('./errors/NotFound');
-const { validateLogin, validateCreateUser } = require('./middlewares/validate');
+const limiter = require('./middlewares/rateLimit');
+const router = require('./routes/index');
 
 const options = {
   origin: [
@@ -29,32 +28,17 @@ const { PORT = 3000 } = process.env;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-mongoose.connect('mongodb://localhost:27017/moviesdb');
+mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
 app.use(requestLogger);
+app.use(limiter);
+app.use(helmet());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-
-app.post(
-  '/signin',
-  validateLogin,
-  login,
-);
-app.post(
-  '/signup',
-  validateCreateUser,
-  createUser,
-);
-
-app.use('/', auth, require('./routes/users'));
-app.use('/', auth, require('./routes/movie'));
-
-app.use(auth, () => {
-  throw new NotFound('Запрашиваемый ресурс не найден');
-});
+app.use(router);
 app.use(errorLogger);
 app.use(errors());
 
