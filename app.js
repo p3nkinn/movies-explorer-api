@@ -12,7 +12,7 @@ const router = require('./routes/index');
 
 const options = {
   origin: [
-    'http://localhost:3000',
+    'http://localhost:3010',
     'https://p3nkinn.students.nomoredomains.sbs',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
@@ -24,7 +24,7 @@ const options = {
 
 const app = express();
 app.use('*', cors(options));
-const { PORT = 3000 } = process.env;
+const { PORT = 3010 } = process.env;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
