@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { isURL } = require('validator');
-const { regEXp } = require('../utils/regEXp');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -8,11 +7,11 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   director: {
-    type: Number,
+    type: String,
     required: true,
   },
   duration: {
-    type: String,
+    type: Number,
     required: true,
   },
   year: {
@@ -27,19 +26,16 @@ const movieSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
-    match: regEXp,
     validate: [isURL, 'Пожалуйста, заполните правильный URL адрес!'],
   },
-  trailerLink: {
+  trailer: {
     type: String,
     required: true,
-    match: regEXp,
     validate: [isURL, 'Пожалуйста, заполните правильный URL адрес!'],
   },
   thumbnail: {
     type: String,
     required: true,
-    match: regEXp,
     validate: [isURL, 'Пожалуйста, заполните правильный URL адрес!'],
   },
   owner: {

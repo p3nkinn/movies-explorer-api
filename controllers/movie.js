@@ -6,7 +6,6 @@ const modelMovie = require('../models/movie');
 module.exports.getMovie = (req, res, next) => {
   modelMovie
     .find({})
-    .populate('user')
     .then((movie) => res.send({ movie }))
     .catch((err) => next(err));
 };
@@ -62,14 +61,10 @@ module.exports.createMovie = (req, res, next) => {
       movieId,
       owner: req.user._id,
     })
-    .then((movie) => res.send({ movie }))
+    .then((movie) => res.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(
-          new BadRequest(
-            'Переданы некорректные данные при создании фильма.',
-          ),
-        );
+        next(new BadRequest('Переданы некорректные данные при создании фильма.'));
       } else {
         next(err);
       }
