@@ -28,7 +28,7 @@ const { PORT = 3010 } = process.env;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+mongoose.connect('mongodb://localhost:27017/moviesdb');
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
