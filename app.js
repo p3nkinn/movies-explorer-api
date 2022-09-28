@@ -24,11 +24,11 @@ const options = {
 
 const app = express();
 app.use('*', cors(options));
-const { PORT = 3010 } = process.env;
+const { PORT = 3010, MONGO_DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-mongoose.connect('mongodb://localhost:27017/moviesdb');
+mongoose.connect(MONGO_DB);
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());

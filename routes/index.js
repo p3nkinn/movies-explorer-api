@@ -14,11 +14,11 @@ router.post(
   validateCreateUser,
   createUser,
 );
+router.use(auth);
+router.use(require('./users'));
+router.use(require('./movie'));
 
-router.use('/', auth, require('./users'));
-router.use('/', auth, require('./movie'));
-
-router.use(auth, () => {
+router.use(() => {
   throw new NotFound('Запрашиваемый ресурс не найден');
 });
 

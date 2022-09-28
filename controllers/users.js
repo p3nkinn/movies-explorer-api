@@ -71,6 +71,8 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequest(' Переданы некорректные данные при обновлении профиля.'));
+      } else if (err.name === 'ConflictError' || err.code === 11000) {
+        next(new ConflictRequest('Пользователь с таким email уже зарегистрирован'));
       } else {
         next(err);
       }
