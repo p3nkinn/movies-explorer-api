@@ -14,22 +14,21 @@ module.exports.delMovieById = (req, res, next) => {
   modelMovie
     .findById(req.params.id)
     .orFail(() => new NotFound('Фильм по указанному id не найдена в БД.'))
+    .then((movie) => {
+      if (movie.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Невозможно удалить чужой фильм');
+      }
+      return modelMovie
+        .findByIdAndDelete(req.params.id)
+        .then((movieDelete) => res.send({ data: movieDelete }));
+    })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequest('Передан некорректный id.'));
       } else {
         next(err);
       }
-    })
-    .then((movie) => {
-      if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Невозможно удалить чужой фильм');
-      }
-      modelMovie
-        .findByIdAndDelete(req.params.id)
-        .then((movieDelete) => res.send({ data: movieDelete }));
-    })
-    .catch((err) => next(err));
+    });
 };
 
 module.exports.createMovie = (req, res, next) => {
