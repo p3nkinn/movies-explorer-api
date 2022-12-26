@@ -3,30 +3,17 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimit');
 const router = require('./routes/index');
 
-const options = {
-  origin: [
-    'http://localhost:3010',
-    'https://diploma.frontend.nomoredomains.icu/',
-    'https://api.diploma.backend.nomorepartiesxyz.ru/',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+const { PORT = 3010, MONGO_DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
 
 const app = express();
-app.options('*', cors(options));
-app.use(cors(options));
-const { PORT = 3010, MONGO_DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
+app.use(cors);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
