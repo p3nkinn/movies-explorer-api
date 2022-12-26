@@ -2,6 +2,8 @@ const allowedCors = [
   'http://localhost:3010',
   'https://diploma.frontend.nomoredomains.icu/',
   'https://api.diploma.backend.nomorepartiesxyz.ru/',
+  'http://diploma.frontend.nomoredomains.icu/',
+  'http://api.diploma.backend.nomorepartiesxyz.ru/',
 ];
 
 module.exports = (req, res, next) => {
