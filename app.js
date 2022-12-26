@@ -5,26 +5,15 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
-const cors = require('cors');
+const cors = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimit');
 const router = require('./routes/index');
 
 const { PORT = 3010 } = process.env;
-const options = {
-  origin: [
-    'http://localhost:3010',
-    'https://p3nkinn.students.nomoredomains.sbs',
-    'https://github.com/p3nkinn/react-mesto-api-full.git',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+
 const app = express();
-app.use('*', cors(options));
+app.use(cors);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
