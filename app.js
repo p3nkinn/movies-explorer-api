@@ -19,11 +19,12 @@ const options = {
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin', 'origin', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
   credentials: true,
 };
 
 const app = express();
+app.options('*', cors(options));
 app.use(cors(options));
 const { PORT = 3010, MONGO_DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
 app.use(bodyParser.urlencoded({ extended: true }));
