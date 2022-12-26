@@ -14,6 +14,7 @@ const options = {
   origin: [
     'http://localhost:3010',
     'https://diploma.frontend.nomoredomains.icu/',
+    'https://api.diploma.backend.nomorepartiesxyz.ru/',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
