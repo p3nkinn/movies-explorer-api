@@ -24,7 +24,7 @@ const options = {
 };
 
 const app = express();
-app.use('*', cors(options));
+app.use(cors(options));
 const { PORT = 3010, MONGO_DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
