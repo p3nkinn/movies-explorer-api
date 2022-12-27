@@ -12,9 +12,21 @@ const router = require('./routes/index');
 
 const { PORT = 3010 } = process.env;
 
+const options = {
+  origin: [
+    'http://localhost:3000',
+    'https://diploma.frontend.nomoredomains.icu/',
+    'http://diploma.frontend.nomoredomains.icu/',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+};
+
 const app = express();
-app.use(cors);
-app.options('*', cors());
+app.use('*', cors(options));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
