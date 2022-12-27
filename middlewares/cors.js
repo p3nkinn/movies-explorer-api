@@ -1,8 +1,9 @@
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
 const allowedCors = [
-  'http://localhost:3010',
   'https://diploma.frontend.nomoredomains.icu/',
+  'http://diploma.frontend.nomoredomains.icu/',
+  'http://localhost:3010',
 ];
 
 module.exports = (req, res, next) => {
@@ -16,7 +17,7 @@ module.exports = (req, res, next) => {
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
-    // req.status(200).send();
+    req.status(200).send();
     return res.end();
   }
   return next();
