@@ -10,23 +10,18 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimit');
 const router = require('./routes/index');
 
-const { PORT = 3010 } = process.env;
+const { PORT = 3000 } = process.env;
 
-const options = {
-  origin: [
-    'http://localhost:3000',
-    'https://diploma.frontend.nomoredomains.icu/',
-    'http://diploma.frontend.nomoredomains.icu/',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+const CORS_PATH = [
+  'http://localhost:3010',
+  'https://diploma.frontend.nomoredomains.icu',
+  'https://api.diploma.backend.nomorepartiesxyz.ru',
+];
 
 const app = express();
-app.use('*', cors(options));
+app.use(cors({
+  origin: CORS_PATH,
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
