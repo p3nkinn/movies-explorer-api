@@ -3,33 +3,30 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/rateLimit');
 const router = require('./routes/index');
 
-const options = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3010',
-    'https://p3nkinn.students.nomoredomains.sbs',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
+const { PORT = 3000 } = process.env;
+
+const CORS_PATH = [
+  'http://localhost:3000',
+  'http://localhost:3010',
+  'https://diploma.frontend.nomoredomains.icu',
+  'https://api.diploma.backend.nomorepartiesxyz.ru',
+];
 
 const app = express();
-app.use('*', cors(options));
-const { PORT = 3010, MONGO_DB = 'mongodb://localhost:27017/moviesdb' } = process.env;
+app.use(cors({
+  origin: CORS_PATH,
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-mongoose.connect(MONGO_DB);
+mongoose.connect('mongodb://localhost:27017/moviesdb');
 app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
