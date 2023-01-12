@@ -4,7 +4,7 @@ const regEXp = require('../utils/regEXp');
 const validateUpdateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    email: Joi.string().required().email(),
+    email: Joi.string().min(2).max(30).email(),
   }),
 });
 

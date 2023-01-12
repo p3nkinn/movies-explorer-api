@@ -12,6 +12,7 @@ const router = require('./routes/index');
 
 const options = {
   origin: [
+    'http://localhost:3000',
     'http://localhost:3010',
     'https://p3nkinn.students.nomoredomains.sbs',
   ],
