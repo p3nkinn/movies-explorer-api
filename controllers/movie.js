@@ -5,7 +5,7 @@ const modelMovie = require('../models/movie');
 
 module.exports.getMovie = (req, res, next) => {
   modelMovie
-    .find({})
+    .find({owner: req.user._id})
     .then((movie) => res.send({ movie }))
     .catch((err) => next(err));
 };
